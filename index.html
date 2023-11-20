@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .piano-key {
+      width: 50px;
+      height: 200px;
+      border: 1px solid #333;
+      background-color: white;
+      margin: 0 5px;
+      cursor: pointer;
+    }
+
+    .black-key {
+      width: 30px;
+      height: 120px;
+      background-color: black;
+      position: relative;
+      z-index: 1;
+      margin: 0 -15px;
+    }
+  </style>
+  <title>Piano Simulator</title>
+</head>
+<body>
+
+  <div id="piano">
+    <!-- Teclas Brancas -->
+    <div class="piano-key" data-note="C"></div>
+    <div class="piano-key black-key" data-note="C#"></div>
+    <div class="piano-key" data-note="D"></div>
+    <div class="piano-key black-key" data-note="D#"></div>
+    <div class="piano-key" data-note="E"></div>
+    <div class="piano-key" data-note="F"></div>
+    <div class="piano-key black-key" data-note="F#"></div>
+    <div class="piano-key" data-note="G"></div>
+    <div class="piano-key black-key" data-note="G#"></div>
+    <div class="piano-key" data-note="A"></div>
+    <div class="piano-key black-key" data-note="A#"></div>
+    <div class="piano-key" data-note="B"></div>
+    <!-- Teclas Pretas -->
+    <div class="piano-key" data-note="C"></div>
+    <div class="piano-key black-key" data-note="C#"></div>
+    <div class="piano-key" data-note="D"></div>
+    <div class="piano-key black-key" data-note="D#"></div>
+    <div class="piano-key" data-note="E"></div>
+    <div class="piano-key" data-note="F"></div>
+    <div class="piano-key black-key" data-note="F#"></div>
+    <div class="piano-key" data-note="G"></div>
+    <div class="piano-key black-key" data-note="G#"></div>
+    <div class="piano-key" data-note="A"></div>
+    <div class="piano-key black-key" data-note="A#"></div>
+    <div class="piano-key" data-note="B"></div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const pianoKeys = document.querySelectorAll('.piano-key');
+
+      pianoKeys.forEach(key => {
+        key.addEventListener('mousedown', playNote);
+        key.addEventListener('mouseup', stopNote);
+        key.addEventListener('mouseleave', stopNote);
+      });
+
+      document.addEventListener('keydown', (event) => {
+        const key = event.key.toUpperCase();
+        const pianoKey = document.querySelector(`[data-note="${key}"]`);
+        if (pianoKey) {
+          playNote.call(pianoKey);
+        }
+      });
+
+      document.addEventListener('keyup', (event) => {
+        const key = event.key.toUpperCase();
+        const pianoKey = document.querySelector(`[data-note="${key}"]`);
+        if (pianoKey) {
+          stopNote.call(pianoKey);
+        }
+      });
+
+      function playNote() {
+        this.style.backgroundColor = 'lightgray';
+        const note = this.dataset.note;
+        const audio = new Audio(`path/to/your/audio/${note}.mp3`);
+        audio.play();
+      }
+
+      function stopNote() {
+        this.style.backgroundColor = this.classList.contains('black-key') ? 'black' : 'white';
+      }
+    });
+  </script>
+</body>
+</html>
